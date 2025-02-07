@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Document</title>
+  </head>
+  <body>
+    <nav id="Nav">
+      <ul id="Lista-Nav">
+        <li><button id="create-button">Ir a Crear</button></li>
+        <li><button id="Delete-button">Ir a eliminar</button></li>
+      </ul>
+    </nav>
+    
+    <div class="container">
+        <form enctype="multipart/form-data" id="FormCreate">
+          {% csrf_token %}
+            <h1>Crea un Nuevo Producto!</h1>
+            <input type="text" name="name" id="name" placeholder="Nombre" required />
+            <textarea type="text" name="description" id="description" placeholder="Descripcion" required></textarea>
+            <select name="category" id="category" required>
+            <option value="piñatas">piñatas</option>
+            <option value="muñecos">muñecos</option>
+            <option value="stickers">stickers</option>
+            <option value="others">Otro</option>
+            </select>
+            <input type="text" name="price" id="price" placeholder="Precio" required/>
+            <input type="text" name="stock" id="stock" placeholder="stock" required/>
+            <input type="file" name="image" id="image" placeholder="Imagen" required/>
+
+            <button type="submit" id="BtnCreate">Crear</button>
+        </form>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
