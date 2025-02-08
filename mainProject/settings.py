@@ -56,7 +56,10 @@ ROOT_URLCONF = 'mainProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'APIMain', 'templatesAdmin'),  # Ruta para market
+            os.path.join(BASE_DIR, 'market', 'templatesMarket'),  # Ruta para market
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
