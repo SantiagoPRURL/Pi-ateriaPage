@@ -120,7 +120,7 @@ body {
 .main-products {
     grid-area: main-products;
     display: grid;
-    grid-template-rows: 200px 400px 300px 300px 300px;
+    grid-template-rows: 200px 400px 850px 400px 850px;
     grid-template-areas: 
     "heaeder-products"
     "pinatas"

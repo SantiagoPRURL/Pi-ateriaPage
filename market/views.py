@@ -58,8 +58,6 @@ class ProductFilterView(APIView):
             'previous': paginator.get_previous_link(),
             'results': serializer.data
         }, status=status.HTTP_200_OK)
-        
-        #return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 def product_filter_view(request):
