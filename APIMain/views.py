@@ -89,20 +89,6 @@ def LogoutView(request):
     logout(request)
     return Response({"message":"Usuario acaba de salir", "redirect":"/api/login/"}, status=status.HTTP_200_OK)
     
-class ProductFilterView(APIView):
-    def get(self, request):
-        queryset = Product.objects.all()
-    
-        name = request.query_params.get('name', None)
-        category = request.query_params.get('category')
-        
-        if name: 
-            queryset.filter(name__icontains = name)
-        if category:
-            queryset.filter(category__icontains = category)
-        
-        serializer = ProductSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     
     
             

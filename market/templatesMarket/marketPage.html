@@ -22,20 +22,35 @@
 
       <!-- Logo y Barra de Búsqueda -->
       <div class="sidebar">
-        <img src="/media/products/Logo.jpeg" alt="Logo" width="300" height="300" />
+        <img
+          src="/media/products/Logo.jpeg"
+          alt="Logo"
+          width="300"
+          height="300"
+        />
         <div class="search-container">
-            <input type="text" placeholder="Buscar..." />
-            <button>Buscar</button>
+          <input
+            type="text"
+            placeholder="Buscar..."
+            name="search"
+            id="search"
+          />
+          <button id="btn-search">Buscar</button>
         </div>
-    </div>
+      </div>
 
       <div class="nav">
         <nav>
           <ul>
-            
-            <li><a href="#"><i class="fa-brands fa-searchengin"></i>Buscar</a></li>
-            <li><a href="#"><i class="fa-solid fa-list"></i>Catálogo</a></li>
-            <li><a href="#"><i class="fa-brands fa-osi"></i>Inicio</a></li>
+            <li>
+              <a href="#"><i class="fa-brands fa-searchengin"></i>Buscar</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa-solid fa-list"></i>Catálogo</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa-brands fa-osi"></i>Inicio</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -64,5 +79,6 @@
         </div>
       </div>
     </div>
+    <script src="{% static 'js/filterproducts.js' %}"></script>
   </body>
 </html>
