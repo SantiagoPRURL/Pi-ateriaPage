@@ -24,6 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.hidden = true;
     btnSearch.hidden = true;
 
+    //searchInput.remove();
+    //btnSearch.remove();
+
     fetchProducts(searchParam, pageParam);
   }
 });
