@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchNav = document.getElementById("search-Nav");
   const catalogNav = document.getElementById("catalog-Nav");
   const mainNav = document.getElementById("main-Nav")
+  
 
 
   document.addEventListener(('click'), (event_mul) => {
@@ -117,9 +118,10 @@ function updateProducts(products) {
     const div = document.createElement("div");
 
     div.innerHTML = ` 
+            <img src="${product.image_url || "default_image.png"}" width="200">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
-            <img src="${product.image_url || "default_image.png"}" width="200">
+            <p> $ ${product.price}</p>
         `;
     container.appendChild(div);
   });

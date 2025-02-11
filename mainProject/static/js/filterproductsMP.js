@@ -1,33 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Iniciando...");
+
   const searchInput = document.getElementById("search");
   const btnSearch = document.getElementById("btn-search");
+  const btnNext = document.getElementById("next-button");
+  const btnPrevious = document.getElementById("prev-button");
+
+  // Obtener parámetros de la URL
+  const params = new URLSearchParams(window.location.search);
+  const searchParam = params.get("search");
+  const pageParam = params.get("page");
+
+  // Verificar si la URL es "/market-search/" sin parámetros
+  if (!searchParam && !pageParam) {
+    btnNext.hidden = true;
+    btnPrevious.hidden = true;
+  } else {
+    btnNext.hidden = false;
+    btnPrevious.hidden = false;
+  }
 
   btnSearch.addEventListener("click", () => {
     const searchTerm = searchInput.value.trim();
-    console.log(searchTerm);
     if (searchTerm) {
-      const newUrl = `/market-search/?search=${encodeURIComponent(
+      window.location.href = `/market-search/?search=${encodeURIComponent(
         searchTerm
       )}&page=1`;
-      window.location.href = newUrl;
     }
   });
 
-  const params = new URLSearchParams(window.location.search);
-  const searchParam = params.get("search");
-  const pageParam = params.get("page") || 1;
-
   if (searchParam) {
     searchInput.value = searchParam;
-
     searchInput.hidden = true;
     btnSearch.hidden = true;
-
-    //searchInput.remove();
-    //btnSearch.remove();
-
-    fetchProducts(searchParam, pageParam);
+    fetchProducts(searchParam, pageParam || 1);
   }
 });
 
@@ -35,6 +41,7 @@ async function fetchProducts(search, page) {
   try {
     const btnNext = document.getElementById("next-button");
     const btnPrevious = document.getElementById("prev-button");
+    const resultsHeader = document.getElementById("results-header");
 
     const response = await fetch(
       `/market-search/api/?search=${encodeURIComponent(search)}&page=${page}`
@@ -48,6 +55,8 @@ async function fetchProducts(search, page) {
     if (!data.previous) {
       btnPrevious.disabled = true;
     }
+
+    resultsHeader.innerHTML = `Resultados para "${search}"`;
 
     document.addEventListener("click", (event1) => {
       if (event1.target == btnNext) {
@@ -102,9 +111,10 @@ function updateProducts(products) {
     const div = document.createElement("div");
 
     div.innerHTML = ` 
+            <img src="${product.image_url || "default_image.png"}" width="200">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
-            <img src="${product.image_url || "default_image.png"}" width="200">
+            <p> $ ${product.price}</p>
         `;
     container.appendChild(div);
   });
