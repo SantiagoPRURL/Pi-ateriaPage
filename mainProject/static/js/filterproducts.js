@@ -5,9 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const searchNav = document.getElementById("search-Nav");
   const catalogNav = document.getElementById("catalog-Nav");
-  const mainNav = document.getElementById("main-Nav")
-  
+  const mainNav = document.getElementById("main-Nav");
 
+  const btnNext = document.getElementsByClassName("next-button");
+  const btnPrevious = document.getElementById("prev-button");
 
   document.addEventListener(('click'), (event_mul) => {
     if(event_mul.target == mainNav){
@@ -27,6 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
     else if(event_mul.target == searchNav){
       window.location.href = "/market-search/"
     }
+    else if(event_mul.target == catalogNav){
+      window.location.href = "/market-search/?search=all&page=1"
+    }
   });
 
 
@@ -34,14 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchParam = params.get("search");
   const pageParam = params.get("page") || 1;
 
+  // Verificar si la URL es "/market-search/" sin parámetros
+  if (!searchParam && !pageParam) {
+    btnNext.hidden = true;
+    btnPrevious.hidden = true;
+  } else {
+    btnNext.hidden = false;
+    btnPrevious.hidden = false;
+  }
+
   if (searchParam) {
     searchInput.value = searchParam;
 
     searchInput.hidden = true;
     btnSearch.hidden = true;
-
-    //searchInput.remove();
-    //btnSearch.remove();
 
     fetchProducts(searchParam, pageParam);
   }
@@ -51,11 +61,15 @@ async function fetchProducts(search, page) {
   try {
     const btnNext = document.getElementById("next-button");
     const btnPrevious = document.getElementById("prev-button");
+    const resultsHeader = document.getElementById("results-header");
+    const NumPage = document.getElementById("Num-pages");
 
     const response = await fetch(
       `/market-search/api/?search=${encodeURIComponent(search)}&page=${page}`
     );
     const data = await response.json();
+
+    NumPage.textContent = `pagina ${page} de ${data.total_pages}`
 
     if (!data.next) {
       btnNext.disabled = true;
@@ -63,6 +77,67 @@ async function fetchProducts(search, page) {
 
     if (!data.previous) {
       btnPrevious.disabled = true;
+    }
+
+    if(search === 'all'){
+      resultsHeader.innerHTML = `Catalogo completo de productos`;
+    }
+    else if(search === 'piñatas-niño'){
+      resultsHeader.innerHTML = `piñatas niño`;
+    }
+    else if(search === 'piñatas-niña'){
+      resultsHeader.innerHTML = `piñatas niña`;
+    }
+    else if(search === 'piñatas-adulto'){
+      resultsHeader.innerHTML = `piñatas adulto`;
+    }
+    else if(search === 'porcelanicron-matrimonio'){
+      resultsHeader.innerHTML = `motivos matrimonio`;
+    }
+    else if(search === 'porcelanicron-quinceañeras'){
+      resultsHeader.innerHTML = `motivos quinceañeras`;
+    }
+    else if(search === 'porcelanicron-animados'){
+      resultsHeader.innerHTML = `motivos animados`;
+    }
+    else if(search === 'porcelanicron-profesiones'){
+      resultsHeader.innerHTML = `motivos profesiones`;
+    }
+    else if(search === 'porcelanicron-comunion'){
+      resultsHeader.innerHTML = `motivos comunion`;
+    }
+    else if(search === 'porcelanicron-grados'){
+      resultsHeader.innerHTML = `motivos grados`;
+    }
+    else if(search === 'stickers-niño'){
+      resultsHeader.innerHTML = `stickers niño`;
+    }
+    else if(search === 'stickers-niña'){
+      resultsHeader.innerHTML = `stickers niña`;
+    }
+    else if(search === 'stickers-adulto'){
+      resultsHeader.innerHTML = `stickers adulto`;
+    }
+    else if(search === 'toppers-cumpleanos'){
+      resultsHeader.innerHTML = `toppers cumpleaños`;
+    }
+    else if(search === 'toppers-feliz-dia'){
+      resultsHeader.innerHTML = `toppers feliz día`;
+    }
+    else if(search === 'toppers-aniversario'){
+      resultsHeader.innerHTML = `toppers aniversario`;
+    }
+    else if(search === 'toppers-grados'){
+      resultsHeader.innerHTML = `toppers grados`;
+    }
+    else if(search === 'toppers-comunion'){
+      resultsHeader.innerHTML = `toppers comunion`;
+    }
+    else if(search === 'toppers-numeros'){
+      resultsHeader.innerHTML = `toppers numeros`;
+    }
+    else{
+      resultsHeader.innerHTML = `Resultados para "${search}"`;
     }
 
     document.addEventListener("click", (event1) => {
@@ -102,7 +177,7 @@ async function fetchProducts(search, page) {
     if (response.ok) {
       updateProducts(data.results);
     } else {
-      alert("No se encontraron productos.");
+      console.log("No se encontraron productos.");
     }
   } catch (error) {
     console.error("Error al obtener productos:", error);

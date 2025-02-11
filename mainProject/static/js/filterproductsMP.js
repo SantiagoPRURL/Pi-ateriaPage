@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnNext = document.getElementById("next-button");
   const btnPrevious = document.getElementById("prev-button");
 
+  const catalogNav = document.getElementById("catalog-Nav");
+
   // Obtener parámetros de la URL
   const params = new URLSearchParams(window.location.search);
   const searchParam = params.get("search");
@@ -20,12 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
     btnPrevious.hidden = false;
   }
 
-  btnSearch.addEventListener("click", () => {
-    const searchTerm = searchInput.value.trim();
-    if (searchTerm) {
-      window.location.href = `/market-search/?search=${encodeURIComponent(
-        searchTerm
-      )}&page=1`;
+  document.addEventListener("click", (event) => {
+    if (event.target == btnSearch) {
+      const searchTerm = searchInput.value.trim();
+      if (searchTerm) {
+        window.location.href = `/market-search/?search=${encodeURIComponent(
+          searchTerm
+        )}&page=1`;
+      }
+    } else if (event.target == catalogNav) {
+      window.location.href = "/market-search/?search=all&page=1";
     }
   });
 
@@ -42,11 +48,18 @@ async function fetchProducts(search, page) {
     const btnNext = document.getElementById("next-button");
     const btnPrevious = document.getElementById("prev-button");
     const resultsHeader = document.getElementById("results-header");
+    const NumPage = document.getElementById("Num-pages");
 
     const response = await fetch(
       `/market-search/api/?search=${encodeURIComponent(search)}&page=${page}`
     );
     const data = await response.json();
+
+    if (data.total_pages == undefined) {
+      NumPage.textContent = `pagina ${page} de ${page}`;
+    } else {
+      NumPage.textContent = `pagina ${page} de ${data.total_pages}`;
+    }
 
     if (!data.next) {
       btnNext.disabled = true;
@@ -56,7 +69,47 @@ async function fetchProducts(search, page) {
       btnPrevious.disabled = true;
     }
 
-    resultsHeader.innerHTML = `Resultados para "${search}"`;
+    if (search === "all") {
+      resultsHeader.innerHTML = `Catalogo completo de productos`;
+    } else if (search === "piñatas-niño") {
+      resultsHeader.innerHTML = `piñatas niño`;
+    } else if (search === "piñatas-niña") {
+      resultsHeader.innerHTML = `piñatas niña`;
+    } else if (search === "piñatas-adulto") {
+      resultsHeader.innerHTML = `piñatas adulto`;
+    } else if (search === "porcelanicron-matrimonio") {
+      resultsHeader.innerHTML = `motivos matrimonio`;
+    } else if (search === "porcelanicron-quinceañeras") {
+      resultsHeader.innerHTML = `motivos quinceañeras`;
+    } else if (search === "porcelanicron-animados") {
+      resultsHeader.innerHTML = `motivos animados`;
+    } else if (search === "porcelanicron-profesiones") {
+      resultsHeader.innerHTML = `motivos profesiones`;
+    } else if (search === "porcelanicron-comunion") {
+      resultsHeader.innerHTML = `motivos comunion`;
+    } else if (search === "porcelanicron-grados") {
+      resultsHeader.innerHTML = `motivos grados`;
+    } else if (search === "stickers-niño") {
+      resultsHeader.innerHTML = `stickers niño`;
+    } else if (search === "stickers-niña") {
+      resultsHeader.innerHTML = `stickers niña`;
+    } else if (search === "stickers-adulto") {
+      resultsHeader.innerHTML = `stickers adulto`;
+    } else if (search === "toppers-cumpleanos") {
+      resultsHeader.innerHTML = `toppers cumpleaños`;
+    } else if (search === "toppers-feliz-dia") {
+      resultsHeader.innerHTML = `toppers feliz día`;
+    } else if (search === "toppers-aniversario") {
+      resultsHeader.innerHTML = `toppers aniversario`;
+    } else if (search === "toppers-grados") {
+      resultsHeader.innerHTML = `toppers grados`;
+    } else if (search === "toppers-comunion") {
+      resultsHeader.innerHTML = `toppers comunion`;
+    } else if (search === "toppers-numeros") {
+      resultsHeader.innerHTML = `toppers numeros`;
+    } else {
+      resultsHeader.innerHTML = `Resultados para "${search}"`;
+    }
 
     document.addEventListener("click", (event1) => {
       if (event1.target == btnNext) {
@@ -95,7 +148,7 @@ async function fetchProducts(search, page) {
     if (response.ok) {
       updateProducts(data.results);
     } else {
-      alert("No se encontraron productos.");
+      console.log("No se encontraron productos.");
     }
   } catch (error) {
     console.error("Error al obtener productos:", error);

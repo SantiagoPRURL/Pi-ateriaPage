@@ -66,6 +66,7 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    
 }
 
 .pagination-button:disabled {
@@ -120,4 +121,18 @@ h1 {
     background-color: white;
     color: #F497A9;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#Num-pages {
+    margin: 0;
+    padding: 5px 10px;
+    font-weight: bold;
+    white-space: nowrap; /* Evita saltos de línea */
+}
+
+.container-pages{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
