@@ -24,7 +24,34 @@ class LoginPageView(APIView):
         
             return Response({"message":"Usuario Logeado con exito", "redirect":"/api/products/"}, status=status.HTTP_200_OK)
         return Response({"error":"Usuario No Logeado", "redirect":"/api/login/"}, status=status.HTTP_400_BAD_REQUEST)
+       
+class RegisterView(APIView):
+    def get(self, request):
+        return render(request, "register.html")
+    
+    def post(self, request):
+        password1 = request.data["Password1"]
+        password2 = request.data["Password2"]
+        username = request.data["Username"]
+        email = request.data["email"]
         
+        IsExist = User.objects.filter(username = username).exists()
+        
+        if password1 != password2:
+            return Response({"error":"Las claves deben de ser iguales","redirect": "/api/register/"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if IsExist:
+             return Response({"error":"Este usuario ya existe","redirect": "/api/register/"}, status=status.HTTP_400_BAD_REQUEST)
+        
+            
+        user = User.objects.create_user(username=username, email=email, password=password1)
+        login(request, user)
+        
+        return Response({"message":"Usuario creado correctamente", "redirect": "/api/Probes/"}, status=status.HTTP_200_OK)
+    
+        
+        
+     
 class CreateProductView(APIView):
     def get(self, request):
         if not request.user.is_authenticated:
